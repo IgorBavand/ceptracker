@@ -1,0 +1,14 @@
+{
+  "zipCode": "12345",
+  "street": "Rua Exemplo",
+  "complement": "Apartamento 101",
+  "unit": "Bloco A",
+  "neighborhood": "Bairro Teste",
+  "city": "Cidade Exemplo",
+  "state": "EX",
+  "region": "Norte",
+  "ibge": "1234567",
+  "gia": "9876543",
+  "ddd": "12",
+  "siafi": "1234"
+}

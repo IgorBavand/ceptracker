@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: ceptracker
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: igor
+    password: 12345678
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+jwt:
+  secret: mysecretkeyaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  expiration: 3600000
+
+server:
+  port: 8081
