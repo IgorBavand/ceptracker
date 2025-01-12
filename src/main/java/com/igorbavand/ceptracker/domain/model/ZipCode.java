@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +34,11 @@ public class ZipCode {
     private String ddd;
     private String siafi;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime created;
+
+    @PrePersist
+    protected void onCreate() {
+        this.created = LocalDateTime.now();
+    }
 }
