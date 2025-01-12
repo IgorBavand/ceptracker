@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/zipcode/12345"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "zipcode-response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
