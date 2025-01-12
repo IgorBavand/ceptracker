@@ -18,7 +18,7 @@ public class ZipCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "zip_code", nullable = false)
     private String zipCode;
@@ -33,6 +33,10 @@ public class ZipCode {
     private String gia;
     private String ddd;
     private String siafi;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime created;

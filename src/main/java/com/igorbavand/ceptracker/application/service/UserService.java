@@ -6,6 +6,9 @@ import com.igorbavand.ceptracker.enums.RoleName;
 import com.igorbavand.ceptracker.exception.NotFoundException;
 import com.igorbavand.ceptracker.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.userRepository = Objects.requireNonNull(userRepository, "UserRepository cannot be null");
         this.roleService = Objects.requireNonNull(roleService, "RoleService cannot be null");
         this.passwordEncoder = Objects.requireNonNull(passwordEncoder, "PasswordEncoder cannot be null");
+        this.customUserDetailsService = Objects.requireNonNull(customUserDetailsService, "CustomUserDetailsService cannott be null.");
     }
 
     @Transactional
@@ -49,7 +54,6 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
 
     private void validateUser(User user) {
         if (user == null) {
@@ -86,5 +90,25 @@ public class UserService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found with ID: " + id));
+    }
+
+    public String getLoggedInUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null;
+    }
+
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return findByUsername(username);
+        } else {
+            throw new NotFoundException("User not found with username: " + principal);
+        }
     }
 }

@@ -17,13 +17,16 @@ public class ZipCodeService {
     private final ZipCodeClient zipCodeClient;
     private final ZipCodeRepository repository;
     private final ZipCodeMapper mapper;
+    private final UserService userService;
 
     public ZipCodeService(ZipCodeClient zipCodeClient,
                           ZipCodeRepository repository,
-                          ZipCodeMapper mapper) {
+                          ZipCodeMapper mapper,
+                          UserService userService) {
         this.zipCodeClient = zipCodeClient;
         this.repository = repository;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     public ZipCodeResponse findInfoZipCode(String zipCode) {
@@ -39,6 +42,7 @@ public class ZipCodeService {
         }
 
         ZipCode zipCodeToSave = mapper.responseToZipCode(zipCodeResponse);
+        zipCodeToSave.setUser(userService.getLoggedUser());
         repository.save(zipCodeToSave);
 
         return zipCodeResponse;
