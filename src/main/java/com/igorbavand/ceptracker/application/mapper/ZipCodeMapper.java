@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface ZipCodeMapper {
 
     ZipCode responseToZipCode(ZipCodeResponse zipCodeResponse);
+    ZipCodeResponse zipCodeToResponse(ZipCode zipCode);
 }

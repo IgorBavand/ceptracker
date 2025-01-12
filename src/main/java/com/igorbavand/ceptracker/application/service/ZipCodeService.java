@@ -5,8 +5,12 @@ import com.igorbavand.ceptracker.application.mapper.ZipCodeMapper;
 import com.igorbavand.ceptracker.domain.model.ZipCode;
 import com.igorbavand.ceptracker.infrastructure.ZipCodeRepository;
 import com.igorbavand.ceptracker.infrastructure.client.ZipCodeClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Slf4j
 @Service
 public class ZipCodeService {
 
@@ -23,9 +27,19 @@ public class ZipCodeService {
     }
 
     public ZipCodeResponse findInfoZipCode(String zipCode) {
-        ZipCodeResponse zipCodeResponse = zipCodeClient.getZipCode(zipCode);
-        ZipCode saveLog = mapper.responseToZipCode(zipCodeResponse);
-        repository.save(saveLog);
+        List<ZipCode> zipCodeList = repository.findAllByZipCodeIgnoringDash(zipCode);
+        ZipCodeResponse zipCodeResponse = new ZipCodeResponse();
+
+        if (!zipCodeList.isEmpty()) {
+            log.info("Found zip code {}", zipCode);
+            zipCodeResponse = mapper.zipCodeToResponse(zipCodeList.get(0));
+        } else {
+            log.info("Waiting for information, zip code: {}", zipCode);
+            zipCodeResponse = zipCodeClient.getZipCode(zipCode);
+        }
+
+        ZipCode zipCodeToSave = mapper.responseToZipCode(zipCodeResponse);
+        repository.save(zipCodeToSave);
 
         return zipCodeResponse;
     }

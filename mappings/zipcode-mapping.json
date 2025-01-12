@@ -1,13 +1,44 @@
 {
-  "request": {
-    "method": "GET",
-    "urlPath": "/zipcode/12345"
-  },
-  "response": {
-    "status": 200,
-    "bodyFileName": "zipcode-response.json",
-    "headers": {
-      "Content-Type": "application/json"
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/zipcode/12345"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "zipcode-response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/zipcode/62960000"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "zipcode-response2.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/zipcode/60450135"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "zipcode-response3.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
     }
-  }
+  ]
 }
+
