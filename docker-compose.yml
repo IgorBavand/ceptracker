@@ -7,11 +7,14 @@ services:
     environment:
       POSTGRES_USER: igor
       POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - app-network
 
   wiremock:
     image: wiremock/wiremock:2.35.0
@@ -22,7 +25,56 @@ services:
       - ./mappings:/home/wiremock/mappings
       - ./__files:/home/wiremock/__files
     networks:
-      - wiremock-net
+      - app-network
+    restart: always
+
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:7.61.0
+    container_name: datadog-agent
+    environment:
+      - DD_API_KEY=c33f2a461c70f8001447ea7fe92f82f5
+      - DD_SERVICE=CepTrackerAudit
+      - DD_SITE=us5.datadoghq.com
+      - DD_ENV=dev
+      - DD_VERSION=1.0.0
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_TRACE_ENABLED=true
+      - DD_APM_ENABLED=true
+    ports:
+      - "8126:8126"
+      - "8125:8125/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - app-network
+    restart: always
+
+  app:
+    image: ceptracker-api
+    container_name: ceptracker-app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_container:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=igor
+      - SPRING_DATASOURCE_PASSWORD=12345678
+      - SPRING_JWT_SECRET=mysecretkeyaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      - SPRING_JWT_EXPIRATION=3600000
+      - DD_ENV=dev
+      - DD_SERVICE=ceptracker-api
+      - DD_VERSION=1.0.0
+      - DD_AGENT_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_LOGS_INJECTION=true
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - datadog-agent
+    networks:
+      - app-network
     restart: always
 
 volumes:
@@ -30,5 +82,5 @@ volumes:
     driver: local
 
 networks:
-  wiremock-net:
+  app-network:
     driver: bridge

@@ -1,0 +1,11 @@
+<configuration>
+    <appender name="DATADOG" class="com.datadoghq.logback.DatadogAppender">
+        <apiKey>c33f2a461c70f8001447ea7fe92f82f5</apiKey>
+        <hostName>api.datadoghq.com</hostName>
+        <service>ceptracker</service>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="DATADOG"/>
+    </root>
+</configuration>

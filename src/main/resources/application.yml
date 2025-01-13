@@ -2,9 +2,9 @@ spring:
   application:
     name: ceptracker
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: igor
-    password: 12345678
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -22,8 +22,8 @@ logging:
     org.hibernate.SQL: DEBUG
 
 jwt:
-  secret: mysecretkeyaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  expiration: 3600000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
 
 server:
   port: 8081
@@ -32,3 +32,43 @@ springdoc:
   api-docs:
     enabled: true
     path: /v3/api-docs
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  management:
+    server:
+      port: ${ACTUATOR_PORT:8082}
+      endpoint:
+        health:
+          show-details: always
+
+management:
+  datadog:
+    metrics:
+      export:
+        application-key: 3875d4efd3d9ebcff23462000267e7dc4eb48c58
+        api-key: c33f2a461c70f8001447ea7fe92f82f5
+        step: 5s
+        uri: https://us5.datadoghq.com
+      web:
+        server:
+          request:
+            autotime:
+              enabled: true
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+
+  metrics:
+    export:
+      host: api.datadoghq.com
+      step: 30s
+      agent-host: localhost
+
+    datadog:
+      metrics:
+        enabled: true
