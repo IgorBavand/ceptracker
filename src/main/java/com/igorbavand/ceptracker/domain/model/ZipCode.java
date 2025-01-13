@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "zip_code")
+@Table(name = "zip_code_audit")
 @Builder
 public class ZipCode {
 
