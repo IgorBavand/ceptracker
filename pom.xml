@@ -19,6 +19,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<springboot.version>3.0.1</springboot.version>
+		<checkstyle-maven-plugin.version>3.1.1</checkstyle-maven-plugin.version>
+		<puppycrawl.checkstyle.version>10.12.6</puppycrawl.checkstyle.version>
+
 	</properties>
 
 	<dependencies>
@@ -149,6 +152,35 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle-maven-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${puppycrawl.checkstyle.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>verify-style</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<consoleOutput>true</consoleOutput>
+							<violationSeverity>warning</violationSeverity>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
 		</plugins>
