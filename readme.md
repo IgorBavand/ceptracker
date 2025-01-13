@@ -64,7 +64,7 @@ A aplicação **CEP Tracker** permite buscar informações de CEPs, armazená-la
 ### **Requisitos**
 - **Java 17**
 - **Maven**
-- Banco de dados configurado (ex.: PostgreSQL, MySQL ou outro)
+- Banco de dados configurado PostgreSQL
 - API externa rodando localmente em `http://localhost:8080`
 - Docer e docker-compose
 
@@ -72,3 +72,5 @@ A aplicação **CEP Tracker** permite buscar informações de CEPs, armazená-la
 1. Clone o repositório:
    ```bash
    git clone https://github.com/IgorBavand/ceptracker
+   docker-compose up -d
+
