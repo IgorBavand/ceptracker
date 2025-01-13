@@ -17,6 +17,8 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private static final int SEVEN = 7;
+
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
@@ -25,6 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    @SuppressWarnings("checkstyle:methodlength")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -34,7 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
+            jwt = authorizationHeader.substring(SEVEN);
             username = jwtUtil.extractUsername(jwt);
         }
 

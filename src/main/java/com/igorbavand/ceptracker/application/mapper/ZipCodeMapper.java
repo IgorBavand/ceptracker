@@ -12,7 +12,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ZipCodeMapper {
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "created", ignore = true)
     ZipCode responseToZipCode(ZipCodeResponse zipCodeResponse);
+
     ZipCodeResponse zipCodeToResponse(ZipCode zipCode);
 
     @Mapping(source = "user.username", target = "user")

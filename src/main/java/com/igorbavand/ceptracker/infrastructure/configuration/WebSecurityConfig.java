@@ -30,6 +30,7 @@ public class WebSecurityConfig {
         this.corsConfigurationSource = corsConfigurationSource;
     }
 
+    @SuppressWarnings("checkstyle:methodlength")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -58,7 +59,6 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

@@ -1,6 +1,5 @@
 package com.igorbavand.ceptracker.handler;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,12 +18,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
-    public ResponseEntity<Map<String, Object>> handleAuthenticationException(org.springframework.security.core.AuthenticationException ex) {
+    public ResponseEntity<Map<String, Object>> handleAuthenticationException(
+            org.springframework.security.core.AuthenticationException ex) {
         return buildResponse(HttpStatus.UNAUTHORIZED, "Erro de autenticação.", ex.getMessage());
     }
 
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
-    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(org.springframework.security.access.AccessDeniedException ex) {
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(
+            org.springframework.security.access.AccessDeniedException ex) {
         return buildResponse(HttpStatus.FORBIDDEN, "Acesso negado.", ex.getMessage());
     }
 

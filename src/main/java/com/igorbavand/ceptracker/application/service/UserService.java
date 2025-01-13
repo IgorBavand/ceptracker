@@ -22,15 +22,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
-    private final CustomUserDetailsService customUserDetailsService;
 
-    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
+    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = Objects.requireNonNull(userRepository, "UserRepository cannot be null");
         this.roleService = Objects.requireNonNull(roleService, "RoleService cannot be null");
         this.passwordEncoder = Objects.requireNonNull(passwordEncoder, "PasswordEncoder cannot be null");
-        this.customUserDetailsService = Objects.requireNonNull(customUserDetailsService, "CustomUserDetailsService cannott be null.");
     }
 
+    @SuppressWarnings("checkstyle:methodlength")
     @Transactional
     public User saveUser(User user) {
         validateUser(user);
@@ -78,7 +77,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
     public User findByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -99,7 +97,6 @@ public class UserService {
         }
         return null;
     }
-
 
     public User getLoggedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

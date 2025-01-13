@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ZipCodeAuditResponse extends ZipCodeResponse{
+public class ZipCodeAuditResponse extends ZipCodeResponse {
+
     private String user;
 }
