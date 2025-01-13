@@ -27,3 +27,8 @@ jwt:
 
 server:
   port: 8081
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
