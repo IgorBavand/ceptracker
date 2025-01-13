@@ -37,15 +37,17 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
+                        .requestMatchers("/api/zip-code/audit")
+                        .hasRole(RoleName.ROLE_ADMIN.getPermission())
                         .requestMatchers("/api/zip-code/{zipcode}")
                         .hasRole(RoleName.ROLE_USER.getPermission())
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Você precisa se autenticar"))
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized."))
                         .accessDeniedHandler((request, response, accessDeniedException) ->
-                                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Acesso negado"))
+                                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden."))
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -1,5 +1,6 @@
 package com.igorbavand.ceptracker.application.service;
 
+import com.igorbavand.ceptracker.application.dto.response.ZipCodeAuditResponse;
 import com.igorbavand.ceptracker.application.dto.response.ZipCodeResponse;
 import com.igorbavand.ceptracker.application.mapper.ZipCodeMapper;
 import com.igorbavand.ceptracker.domain.model.ZipCode;
@@ -46,6 +47,11 @@ public class ZipCodeService {
         repository.save(zipCodeToSave);
 
         return zipCodeResponse;
+    }
+
+    public List<ZipCodeAuditResponse> findAllZipCodesAudit() {
+        List<ZipCode> zipCodeList = repository.findAll();
+        return mapper.zipCodeListToAuditResponseList(zipCodeList);
     }
 
 }
