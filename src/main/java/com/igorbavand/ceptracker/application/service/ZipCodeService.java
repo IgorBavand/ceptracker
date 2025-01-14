@@ -4,7 +4,7 @@ import com.igorbavand.ceptracker.application.dto.response.ZipCodeAuditResponse;
 import com.igorbavand.ceptracker.application.dto.response.ZipCodeResponse;
 import com.igorbavand.ceptracker.application.mapper.ZipCodeMapper;
 import com.igorbavand.ceptracker.domain.model.ZipCode;
-import com.igorbavand.ceptracker.infrastructure.ZipCodeRepository;
+import com.igorbavand.ceptracker.infrastructure.repository.ZipCodeRepository;
 import com.igorbavand.ceptracker.infrastructure.client.ZipCodeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,8 @@ public class ZipCodeService {
 
     public ZipCodeResponse findInfoZipCode(String zipCode) {
         List<ZipCode> zipCodeList = repository.findAllByZipCodeIgnoringDash(zipCode);
-        ZipCodeResponse zipCodeResponse = new ZipCodeResponse();
+        new ZipCodeResponse();
+        ZipCodeResponse zipCodeResponse;
 
         if (!zipCodeList.isEmpty()) {
             log.info("Found zip code {}", zipCode);

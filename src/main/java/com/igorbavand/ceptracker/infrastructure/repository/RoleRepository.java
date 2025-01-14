@@ -1,4 +1,4 @@
-package com.igorbavand.ceptracker.infrastructure;
+package com.igorbavand.ceptracker.infrastructure.repository;
 
 import com.igorbavand.ceptracker.domain.model.Role;
 import com.igorbavand.ceptracker.enums.RoleName;

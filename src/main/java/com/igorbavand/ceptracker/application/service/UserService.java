@@ -3,8 +3,9 @@ package com.igorbavand.ceptracker.application.service;
 import com.igorbavand.ceptracker.domain.model.Role;
 import com.igorbavand.ceptracker.domain.model.User;
 import com.igorbavand.ceptracker.enums.RoleName;
+import com.igorbavand.ceptracker.exception.BadRequestException;
 import com.igorbavand.ceptracker.exception.NotFoundException;
-import com.igorbavand.ceptracker.infrastructure.UserRepository;
+import com.igorbavand.ceptracker.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -36,33 +38,47 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        Role userRole = roleService.findByName(RoleName.ROLE_USER);
+        if (userRole == null) {
+            userRole = new Role();
+            userRole.setName(RoleName.ROLE_USER);
+            roleService.saveRole(userRole);
+        }
+
         Set<Role> savedRoles = new HashSet<>();
+        savedRoles.add(userRole);
 
-        if (user.getRoles() == null || user.getRoles().isEmpty()) {
-            savedRoles.add(roleService.findByName(RoleName.ROLE_USER));
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            savedRoles.addAll(
+                    user.getRoles()
+                            .stream()
+                            .map(role -> {
+                                Role savedRole = roleService.findByName(role.getName());
+                                return (savedRole != null) ? savedRole : roleService.saveRole(role);
+                            })
+                            .collect(Collectors.toSet())
+            );
         }
 
-        for (Role role : user.getRoles()) {
-            Role savedRole = roleService.findByName(role.getName());
-            if (savedRole == null) {
-                savedRole = roleService.saveRole(role);
-            }
-            savedRoles.add(savedRole);
-        }
         user.setRoles(savedRoles);
 
         return userRepository.save(user);
     }
 
-    private void validateUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
+    private void validateExistentUser(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new BadRequestException("Username already exists");
         }
+    }
+
+    private void validateUser(User user) {
+        validateExistentUser(user.getUsername());
+
         if (user.getUsername() == null || user.getUsername().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
+            throw new BadRequestException("Username cannot be null or empty");
         }
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be null or empty");
+            throw new BadRequestException("Password cannot be null or empty");
         }
     }
 

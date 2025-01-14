@@ -2,7 +2,6 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Baixar o dd-java-agent.jar
 COPY dd-java-agent.jar /app/dd-java-agent.jar
 
 COPY target/ceptracker-0.0.1-SNAPSHOT.jar /app/app.jar

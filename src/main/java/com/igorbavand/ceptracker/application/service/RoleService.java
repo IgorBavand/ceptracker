@@ -3,7 +3,7 @@ package com.igorbavand.ceptracker.application.service;
 import com.igorbavand.ceptracker.domain.model.Role;
 import com.igorbavand.ceptracker.enums.RoleName;
 import com.igorbavand.ceptracker.exception.NotFoundException;
-import com.igorbavand.ceptracker.infrastructure.RoleRepository;
+import com.igorbavand.ceptracker.infrastructure.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service

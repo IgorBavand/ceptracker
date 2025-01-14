@@ -1,7 +1,7 @@
 package com.igorbavand.ceptracker.application.service;
 
 import com.igorbavand.ceptracker.domain.model.User;
-import com.igorbavand.ceptracker.infrastructure.UserRepository;
+import com.igorbavand.ceptracker.infrastructure.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
