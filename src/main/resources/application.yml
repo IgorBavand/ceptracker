@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
   sql:
     init:
       mode: always
@@ -49,10 +50,10 @@ management:
   datadog:
     metrics:
       export:
-        application-key: 3875d4efd3d9ebcff23462000267e7dc4eb48c58
-        api-key: c33f2a461c70f8001447ea7fe92f82f5
+        application-key: ${DD_APPLICATION_KEY}
+        api-key: ${DD_API_KEY}
         step: 5s
-        uri: https://us5.datadoghq.com
+        uri: ${DD_URI}
       web:
         server:
           request:
@@ -66,7 +67,7 @@ management:
   metrics:
     export:
       host: api.datadoghq.com
-      step: 30s
+      step: 5s
       agent-host: localhost
 
     datadog:

@@ -11,7 +11,7 @@ public class ZipCodeClient {
     private final WebClient webClient;
 
     public ZipCodeClient(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080/").build();
+        this.webClient = webClientBuilder.baseUrl("http://wiremock:8080/").build();
     }
 
     public ZipCodeResponse getZipCode(String zipCode) {

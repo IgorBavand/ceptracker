@@ -23,5 +23,8 @@ ENV SPRING_DATASOURCE_USERNAME=igor
 ENV SPRING_DATASOURCE_PASSWORD=12345678
 ENV JWT_SECRET=mysecretkeyaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ENV JWT_EXPIRATION=3600000
+ENV DD_APPLICATION_KEY=3875d4efd3d9ebcff23462000267e7dc4eb48c58
+ENV DD_API_KEY=c33f2a461c70f8001447ea7fe92f82f5
+ENV DD_URI=https://us5.datadoghq.com
 
 CMD ["java", "-javaagent:/app/dd-java-agent.jar", "-jar", "/app/app.jar"]
