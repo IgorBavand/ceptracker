@@ -135,11 +135,7 @@ O projeto utiliza diversas tecnologias para construção de APIs RESTful, segura
 ## **Instalação e Execução**
 
 ### **Requisitos**
-- **Java 17**
-- **Maven**
-- Banco de dados configurado PostgreSQL
-- API externa rodando localmente em `http://localhost:8080`
-- Docer e docker-compose
+- Docker e docker-compose
 
 ### **Passos para Configuração**
 1. git clone https://github.com/IgorBavand/ceptracker
