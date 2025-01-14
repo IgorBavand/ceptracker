@@ -1,4 +1,4 @@
-# README - Aplicação CEP Tracker
+# CEP Tracker
 
 ---
 
